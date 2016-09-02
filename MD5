@@ -1,0 +1,11 @@
+077598e6677f10ec28939cf7e71745e7 *DESCRIPTION
+1d6811b582417463ddcb3d0c2abd9c96 *NAMESPACE
+651e2ede9d4e535d83b9d8f8867c0f11 *R/spex-package.r
+7efbab641f148ca173e7d1d70dba0f13 *R/spex.R
+8d9936c234d12368a35fbe3e6efae55f *README.md
+534cadf650bf45447d8469cd868475f5 *data/lux.rda
+c8bda16cf3d14341771e4ebda945edcc *man/lux.Rd
+55ac31ec9f26380c1bf413b94da2d990 *man/spex.Rd
+1cf877ef4904e25201641894d1d0bc5e *tests/testthat.R
+19d12c68906f0aaa8510e327507f1017 *tests/testthat/test-spex-any.R
+de68142d3beb440d036493be53258764 *tests/testthat/test-spex-extent.R
