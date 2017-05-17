@@ -4,8 +4,11 @@
 \name{spex}
 \alias{spex}
 \alias{spex-package}
-\alias{spex.Extent}
+\alias{spex}
+\alias{spex}
 \alias{spex.default}
+\alias{spex}
+\alias{spex.Extent}
 \title{spex}
 \usage{
 spex(x, ...)
@@ -58,17 +61,6 @@ of only four unique coordinates, and so this is not necessarily suited for
 projection transformations.
 }
 
-\section{Potentially Unwelcome Rant}{
-
-Consider also that this is a common limitation, outside of R, where the "OGC
-standard" for serialized geometry in "well known text" (WKT) or "well known
-binary" (WKB) do not include projection metadata.   Some GIS systems do
-provide serialized geometries that include this crucial metadata, and may we
-encourage this to become more common. Not only is "longitude / latitude"
-coordinates not always suitable, they are actually meaningless without
-knowing the _datum_ (the ellipsoid radii and orientation, often WGS84) and
-the units in use (usually 'degrees', but sometimes 'radians')
-}
 \examples{
 library(raster)
 data(lux)
@@ -90,4 +82,3 @@ spex(extent(0, 1, 0, 1), crs = "+proj=laea +ellps=WGS84")
 \seealso{
 This pattern is displayed in the example code for \code{\link[raster]{cover}}.
 }
-
