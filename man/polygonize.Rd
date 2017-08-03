@@ -16,20 +16,22 @@
 \alias{qm_rasterToPolygons_sp}
 \title{Create a polygon layer from a raster.}
 \usage{
-\method{polygonize}{RasterLayer}(x, ...)
+\method{polygonize}{RasterLayer}(x, na.rm = FALSE, ...)
 
 polygonize(x, ...)
 
-qm_rasterToPolygons(x, ...)
+qm_rasterToPolygons(x, na.rm = FALSE, ...)
 
-\method{polygonize}{RasterStack}(x, ...)
+\method{polygonize}{RasterStack}(x, na.rm = FALSE, ...)
 
-\method{polygonize}{RasterBrick}(x, ...)
+\method{polygonize}{RasterBrick}(x, na.rm = FALSE, ...)
 
-qm_rasterToPolygons_sp(x, ...)
+qm_rasterToPolygons_sp(x, na.rm = FALSE, ...)
 }
 \arguments{
 \item{x}{raster, brick or stack}
+
+\item{na.rm}{defaults to \code{FALSE}, if \code{TRUE} will polygonize only the populated cells}
 
 \item{...}{arguments passed to methods, currently unused}
 }
@@ -37,12 +39,12 @@ qm_rasterToPolygons_sp(x, ...)
 simple features POLYGON layer, or SpatialPolygonsDataFrame
 }
 \description{
-This method uses the quadmesh to generate the coordinates, and creates a simple features layer. 
+This method uses the quadmesh to generate the coordinates, and creates a simple features layer.
 It's faster by turning off the checking done in the simple features package, but it's also faster
 than raster because it uses a dense mesh to generate the coordinates.
 }
 \section{Warning}{
- 
+
 Please don't try this on large rasters, use quadmesh itself for efficient vector based use of a raster's
 coordinates. It will work reasonably on largish grids, but you won't want to try plotting them or perform
 operations on them, simple features is incredibly wasteful for objects like this.
@@ -52,8 +54,9 @@ operations on them, simple features is incredibly wasteful for objects like this
 #library(raadtools)
 library(raster)
 r <- raster(volcano)
+r[sample(ncell(r), 3000)] <- NA
 b <- brick(r, r*1.5)
-psf <- qm_rasterToPolygons(r)
+psf <- qm_rasterToPolygons(r, na.rm = TRUE)
 #psp <- qm_rasterToPolygons_sp(r)
 #pspr <- rasterToPolygons(r)
 #library(rbenchmark)

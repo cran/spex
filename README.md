@@ -10,8 +10,10 @@ Spex provides a small set of functions for working with spatial data. These are
 -   `spex()` - a spatial extent with projection metadata
 -   `polygonize()` - a fast quadmesh-based pixel-to-polygon translation
 -   `buffer_extent` - a convenience function for tidy extents
+-   `xlim`, `ylim` - convenience functions for the axes of an extent
+-   `extent` - convenience functions for sf objects
 
-Create a fully-fledged SpatialPolygonsDataFrame *extent* from any object understood by the 'raster' package function 'extent()'. If the input has projection metadata it will be carried through to the output.
+Create a fully-fledged SpatialPolygonsDataFrame *extent* from any object understood by the 'raster' package function 'extent()'. If the input has projection metadata it will be carried through to the output. The intention is to support any object from packages `sp`, `raster` and `sf`. If you want this to work on other types, [create an issue and get in touch to discuss!](https://github.com/mdsumner/spex/issues).
 
 The polygonization approach is faster than `rasterToPolygons`, and multi-layer rasters are converted to multi-column spatial data frames. This only does the pixel-to-polygon case. It provides an `sf` POLYGON data frame, but there is a version `qm_rasterToPolygons_sp` that returns a Spatial version.
 
@@ -66,6 +68,17 @@ library(raster)
 r <- raster(volcano)
 tm <- system.time(p <- qm_rasterToPolygons(r))
 
+p1 <- polygonize(r)
+
+identical(p, p1)
+#> [1] TRUE
+ 
+p3 <- qm_rasterToPolygons_sp(r)
+class(p3)
+#> [1] "SpatialPolygonsDataFrame"
+#> attr(,"package")
+#> [1] "sp"
+
 nrow(p)
 #> [1] 5307
 
@@ -77,7 +90,7 @@ class(p$geometry)
 
 print(tm)
 #>    user  system elapsed 
-#>   0.276   0.028   0.307
+#>   0.225   0.040   0.265
 ```
 
 Create a buffered extent with whole-number aligned edges.
@@ -106,5 +119,38 @@ buffer_extent(ex, 2)
 #> ymin        : 48 
 #> ymax        : 52
 ```
+
+There are convenience functions for sf objects.
+
+``` r
+class(psf)
+#> [1] "sf"         "data.frame"
+extent(psf)
+#> class       : Extent 
+#> xmin        : 0 
+#> xmax        : 1.23 
+#> ymin        : 0 
+#> ymax        : 1
+spex(psf)
+#> class       : SpatialPolygonsDataFrame 
+#> features    : 1 
+#> extent      : 0, 1.23, 0, 1  (xmin, xmax, ymin, ymax)
+#> coord. ref. : NA 
+#> variables   : 1
+#> names       : p 
+#> min values  : 1 
+#> max values  : 1
+spex(sf::st_set_crs(psf, 3031))
+#> class       : SpatialPolygonsDataFrame 
+#> features    : 1 
+#> extent      : 0, 1.23, 0, 1  (xmin, xmax, ymin, ymax)
+#> coord. ref. : +proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+#> variables   : 1
+#> names       : p 
+#> min values  : 1 
+#> max values  : 1
+```
+
+Should we alias `spex` with `sfex` for the obvious corollary?
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

@@ -9,24 +9,28 @@
 \alias{spex.default}
 \alias{spex}
 \alias{spex.Extent}
+\alias{spex}
+\alias{spex.sf}
 \title{spex}
 \usage{
 spex(x, ...)
 
-\method{spex}{default}(x, byid = FALSE, .id, ...)
+\method{spex}{default}(x, crs, byid = FALSE, .id, ...)
 
 \method{spex}{Extent}(x, crs, ...)
+
+\method{spex}{sf}(x, crs, ...)
 }
 \arguments{
 \item{x}{any object with a \code{\link[raster]{Extent}}}
 
 \item{...}{arguments for methods}
 
+\item{crs}{a projection string}
+
 \item{byid}{return a separate object for every input sub-object (not yet implemented)}
 
 \item{.id}{optional name for output attribute name}
-
-\item{crs}{a projection string}
 }
 \value{
 'SpatialPolygonsDataFrame'
@@ -37,6 +41,7 @@ spex
 Create Spatial Polygons with projection metadata from a 'Spatial Extent'.
 }
 \details{
+Called with no arguments will return the extent of the current 'par("usr")' setting.
 This function is to replace a common pattern in the 'sp'-'raster' family which is
 \itemize{
 \item create an \code{\link[raster]{Extent}}, a bounding box in xmin,xmax,ymin,ymax but without projection metadata
@@ -46,12 +51,12 @@ This function is to replace a common pattern in the 'sp'-'raster' family which i
 }
 
 In short, this pattern exists because there is no projection metadata stored
- with either sp''s \code{\link[sp]{bbox}} or 'raster''s \code{\link[raster]{Extent}}.
+with either sp''s \code{\link[sp]{bbox}} or 'raster''s \code{\link[raster]{Extent}}.
 }
 \section{Spatial Extent}{
 
 \tabular{ll}{
- \code{\link{spex}} \tab function to produce a fully fledged Spatial object extent \cr
+\code{\link{spex}} \tab function to produce a fully fledged Spatial object extent \cr
 }
 }
 
