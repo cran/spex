@@ -37,13 +37,6 @@
 #'
 #' ## put an extent and a CRS together
 #' spex(extent(0, 1, 0, 1), crs = "+proj=laea +ellps=WGS84")
-#' \dontrun{
-#'  ## library(rgdal)
-#'  ## p4 <- "+proj=laea +ellps=WGS84"
-#'  ## plot(spTransform(lux, p4))
-#'  ## warning, this is just 4 coordinates
-#'  ## plot(spTransform(exlux, p4), add = TRUE)
-#' }
 #' @export
 #' @seealso This pattern is displayed in the example code for \code{\link[raster]{cover}}.
 spex <- function(x, ...) {
@@ -61,7 +54,9 @@ spex.default <- function(x, crs, byid = FALSE, .id, ...) {
   } else {
     p <- as(extent(x), 'SpatialPolygons')
   }
-  if (missing(.id)) .id <- deparse(substitute(x))
+  if (missing(.id)) {
+    .id <- sprintf("%s_extent", class(x)[1])
+  }
   crs(p) <- crs(x)
   SpatialPolygonsDataFrame(p, setNames(data.frame(1L), .id))
 }
@@ -70,7 +65,7 @@ spex.default <- function(x, crs, byid = FALSE, .id, ...) {
 #' @name spex
 spex.Extent <- function(x, crs, ...) {
   p <- as(extent(x), 'SpatialPolygons')
-  crs(p) <- crs
+  raster::crs(p) <- crs
   spex(p, ...)
 }
 
@@ -103,6 +98,7 @@ spex.sf <- function(x, crs, ...) {
 #' Any projection metadata is dropped since this is a one-dimensional entity. 
 #' @param x any object with an extent understood by `spex`
 #' @param ... reserved for future methods
+#' @export
 xlim <- function(x, ...) UseMethod("xlim")
 #' @export
 #' @name xlim

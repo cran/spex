@@ -22,11 +22,18 @@ test_that("creation of polygons from raster works", {
 
 d <- raster::rasterize(lux, raster::raster(lux, res = 0.01))
 test_that("we can also qm_raster here", {
-  pd <- polygonize(d) 
-  pd %>% 
-    expect_named(c("ID_1", "NAME_1", "ID_2", "NAME_2", "AREA", "geometry")) %>% 
+  pd <- polygonize(d, na.rm = FALSE) %>% 
+    expect_named(c("layer", "geometry")) %>% 
     expect_s3_class("sf")
   expect_equal(nrow(pd), 5694)
   pnad <- polygonize(d, na.rm = TRUE)
   expect_equal(nrow(pnad), 3195)
+})
+
+
+test_that("we get polygons from an empty raster", {
+  expect_warning(p <- polygonize(raster(nrows = 2, ncols = 3)), 
+                 "raster has no values, ignoring")
+  expect_true(nrow(p) > 0)
+  expect_that(nrow(p), equals(6))
 })
