@@ -1,3 +1,12 @@
+# spex 0.6.0
+
+* Wrap previous proj4 code with reproj, proj4 is no longer imported by spex. 
+
+* Add new features for basic list, data frame or matrix input. 
+
+* New `spex(clipboard = TRUE/FALSE)` argument to take advantage of leafem copy extent (WIP). 
+
+
 # spex 0.5.0
 
 * New latitude functions `latitudecircle` to build a polar circle. 
