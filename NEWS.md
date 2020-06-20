@@ -1,3 +1,11 @@
+# spex 0.7.1
+
+* Fixed tests. 
+
+* Added sfc method, and now using crsmeta. 
+
+* Ensure projargs is character, not logical. 
+
 # spex 0.6.0
 
 * Wrap previous proj4 code with reproj, proj4 is no longer imported by spex. 
